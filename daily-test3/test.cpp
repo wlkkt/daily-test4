@@ -108,3 +108,40 @@ int main()
 //         sleep(1);
 //     }
 // }
+
+#include <iostream>
+#include <signal.h>
+#include <unistd.h>
+#include <sys/types.h>
+
+void hander(int sig)
+{
+    std::cout << "sig of " << sig << " is already get " << std::endl;
+}
+
+int main()
+{
+    int cnt = 0;
+    signal(9, hander);
+    while (true)
+    {
+        sleep(2);
+        raise(9); // 每隔两秒向当前进程发送3号信号
+    }
+}
+
+// // 想要以./mykill 2 进程pid 的形式运行程序
+// int main(int argc, char *argv[])
+// {
+//     if (argc != 3) // 命令行参数不为3就报错返回
+//     {
+//         std::cerr << "Usage: " << argv[0] << " signum pid" << std::endl;
+//         return 1;
+//     }
+
+//     pid_t pid = std::stoi(argv[2]);  // 从命令行字符串数组中获取进程pid
+//     int signum = std::stoi(argv[1]); // 从命令行字符串数组中获取信号编号
+
+//     kill(pid, signum);
+//     return 0;
+// }
